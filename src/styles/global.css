@@ -1,0 +1,91 @@
+:root {
+  --ff-regular: 'Lato', 'system-ui', sans-serif;
+
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-regular: 700;
+
+  --fs-large: 2rem;
+  --fs-medium: 1.1875rem;
+  --fs-regular: 1rem;
+  --fs-small: 0.8125rem;
+
+  --clr-primary: #222831;
+  --clr-secondary: #31363f;
+  --clr-tertiary: #76abae;
+
+  --clr-neutral-200: #eeeeee;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  min-height: 100vh;
+}
+
+body {
+  font-family: var(--ff-regular);
+  font-weight: var(--ff-regular);
+  font-size: var(--fs-medium);
+  color: var(--clr-neutral-200);
+  background-color: var(--clr-primary);
+}
+
+h1,
+h2,
+h3 {
+  margin-block: 1.5rem 0.75rem;
+}
+
+h1 {
+  font-size: var(--fs-large);
+  font-weight: var(--fw-regular);
+}
+
+h2 {
+  font-size: var(--fs-medium);
+}
+
+h3 {
+  font-size: var(--fs-regular);
+}
+
+p {
+  margin-block: 0.5rem;
+  line-height: 1.5;
+  max-width: 80ch;
+}
+
+a {
+  text-decoration: none;
+  color: var(--clr-primary-700);
+}
+
+a:hover,
+a:focus {
+  color: var(--clr-primary-400);
+}
+
+img,
+svg {
+  display: inline-block;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+
+button {
+  font-family: var(--ff-accent);
+  background: none;
+  border: none;
+}
+
+button:hover,
+button:focus {
+  cursor: pointer;
+}

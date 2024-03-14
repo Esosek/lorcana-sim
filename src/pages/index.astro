@@ -1,7 +1,6 @@
 ---
-// const response = await fetch('http://localhost:4321/api/sets?sets=1');
-// const data = await response.json();
-// console.log(data);
+import '../styles/global.css';
+import App from '../components/App.svelte';
 ---
 
 <html lang="en">
@@ -11,8 +10,16 @@
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>Astro</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <h1>Astro</h1>
+    <App client:load />
   </body>
 </html>
