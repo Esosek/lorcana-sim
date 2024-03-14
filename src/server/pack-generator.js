@@ -62,7 +62,10 @@ export function generatePacks(sets) {
 function generatePack(setNumber) {
   const commons = generateCards(setNumber, Rarity.Common, 6);
   const uncommons = generateCards(setNumber, Rarity.Uncommon, 3);
-  const rares = generateCards(setNumber, Rarity.Rare, 2);
+  const rares = [
+    generateCards(setNumber, Rarity.Rare, 1),
+    generateCards(setNumber, Rarity.Rare, 1),
+  ];
   const foil = generateCards(setNumber, Rarity.Foil, 1);
 
   return [...commons, ...uncommons, ...rares, ...foil];
@@ -80,12 +83,14 @@ function generateCards(setNumber, rarity, count) {
       pool = [...uncommons.filter((card) => card.setNumber == setNumber)];
       break;
     case Rarity.Rare:
-      // Get rarity
-      pool = [...rares.filter((card) => card.setNumber == setNumber)];
+      // Get card pool for rare slot
+      const rareSlotPool = getRareSlotPool(setNumber);
+      pool = [...rareSlotPool.filter((card) => card.setNumber == setNumber)];
       break;
     case Rarity.Foil:
-      // Get rarity
-      pool = [...enchanted.filter((card) => card.setNumber == setNumber)];
+      // Get card pool for foil slot
+      const foiSlotPool = getFoilSlotPool(setNumber);
+      pool = [...foiSlotPool.filter((card) => card.setNumber == setNumber)];
       break;
 
     default:
@@ -95,8 +100,63 @@ function generateCards(setNumber, rarity, count) {
   for (let i = 0; i < count; i++) {
     const newCardIndex = Math.floor(Math.random() * pool.length);
     cards.push(pool[newCardIndex]);
+    console.log(pool[newCardIndex].fullName, '/', pool[newCardIndex].rarity);
     pool.splice(newCardIndex, 1);
   }
 
   return cards;
+}
+
+function getRareSlotPool(setNumber) {
+  // 65% Rare
+  // 25% Super
+  // 10% Legendary
+
+  const roll = Math.random();
+  let pool = [];
+
+  if (roll < 0.65) {
+    pool = [...rares.filter((card) => card.setNumber == setNumber)];
+  } else if (roll < 0.9) {
+    pool = [...superRares.filter((card) => card.setNumber == setNumber)];
+  } else {
+    pool = [...legendaries.filter((card) => card.setNumber == setNumber)];
+  }
+
+  return pool;
+}
+
+function getFoilSlotPool(setNumber) {
+  // 50% Common
+  // 25% Uncommon
+  // 25% Rare+
+
+  const roll = Math.random();
+  let pool = [];
+
+  if (roll < 0.5) {
+    pool = [...commons.filter((card) => card.setNumber == setNumber)];
+  } else if (roll < 0.75) {
+    pool = [...uncommons.filter((card) => card.setNumber == setNumber)];
+  } else {
+    pool = getRareFoilSlotPool();
+  }
+
+  return pool;
+
+  function getRareFoilSlotPool() {
+    // 60% Rare
+    // 30% Super
+    // 5% Legendary
+    // 5% Enchanted
+
+    const rareRoll = Math.random();
+    if (rareRoll < 0.6) {
+      return [...rares.filter((card) => card.setNumber == setNumber)];
+    } else if (rareRoll < 0.9) {
+      return [...superRares.filter((card) => card.setNumber == setNumber)];
+    } else if (rareRoll < 0.95) {
+      return [...legendaries.filter((card) => card.setNumber == setNumber)];
+    } else return [...enchanted.filter((card) => card.setNumber == setNumber)];
+  }
 }
