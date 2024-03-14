@@ -63,8 +63,8 @@ function generatePack(setNumber) {
   const commons = generateCards(setNumber, Rarity.Common, 6);
   const uncommons = generateCards(setNumber, Rarity.Uncommon, 3);
   const rares = [
-    generateCards(setNumber, Rarity.Rare, 1),
-    generateCards(setNumber, Rarity.Rare, 1),
+    ...generateCards(setNumber, Rarity.Rare, 1),
+    ...generateCards(setNumber, Rarity.Rare, 1),
   ];
   const foil = generateCards(setNumber, Rarity.Foil, 1);
 
@@ -100,7 +100,6 @@ function generateCards(setNumber, rarity, count) {
   for (let i = 0; i < count; i++) {
     const newCardIndex = Math.floor(Math.random() * pool.length);
     cards.push(pool[newCardIndex]);
-    console.log(pool[newCardIndex].fullName, '/', pool[newCardIndex].rarity);
     pool.splice(newCardIndex, 1);
   }
 
