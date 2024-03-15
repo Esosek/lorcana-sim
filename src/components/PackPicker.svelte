@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import SetSelect from './SetSelect.svelte';
+  import { cardPool } from '../stores/cardPool';
 
   let setsData = {};
   let selectComponents = [];
@@ -52,12 +53,14 @@
     isGeneratingPacks = true;
 
     const selectedPacks = getSelectedPacks();
-    const cardPool = await generateCardPool(selectedPacks);
+    const generatedPacks = await generatePacks(selectedPacks);
 
-    if (cardPool.error) return;
+    if (generatedPacks.error) return;
 
     isGeneratingPacks = false;
     console.log('Packs generated!');
+
+    updatePoolStore(generatedPacks);
   }
 
   function getSelectedPacks() {
@@ -71,7 +74,7 @@
     return selectedPacks;
   }
 
-  async function generateCardPool(pickedPacks) {
+  async function generatePacks(pickedPacks) {
     try {
       const url = `/api/packs?sets=${pickedPacks.join(',')}`;
       const response = await fetch(url);
@@ -88,6 +91,16 @@
       ];
       return { error: error.message };
     }
+  }
+
+  function updatePoolStore(generatedPacks) {
+    let cardList = [];
+
+    for (const pack in generatedPacks) {
+      cardList = [...cardList, ...generatedPacks[pack].cards];
+    }
+
+    cardPool.set(cardList);
   }
 </script>
 

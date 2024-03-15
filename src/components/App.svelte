@@ -1,5 +1,19 @@
 <script>
+  import { cardPool } from '../stores/cardPool';
   import PackPicker from './PackPicker.svelte';
+  import Deckbuilder from './Deckbuilder.svelte';
+
+  let isCardPoolGenerated = false;
+
+  cardPool.subscribe((value) => {
+    if (value.length > 0) {
+      isCardPoolGenerated = true;
+    }
+  });
 </script>
 
-<PackPicker />
+{#if isCardPoolGenerated}
+  <Deckbuilder />
+{:else}
+  <PackPicker />
+{/if}
