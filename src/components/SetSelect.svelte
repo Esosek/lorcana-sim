@@ -2,15 +2,21 @@
   export let id;
   export let removeSet;
   export let setsData;
+  export let onChange;
+
+  let setIndex = '1';
+  let packCount = 1;
+
+  $: onChange(id, setIndex, packCount);
 </script>
 
 <div class="flex-group">
-  <select>
-    {#each Object.values(setsData) as set}
-      <option value={set.code}>{set.name}</option>
+  <select bind:value={setIndex}>
+    {#each Object.entries(setsData) as set}
+      <option value={set[0]}>{set[1].name}</option>
     {/each}
   </select>
-  <input id="" type="number" min="1" value="1" />
+  <input id="" type="number" min="1" bind:value={packCount} />
   <button class="delete-btn" on:click={() => removeSet(id)}>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
       ><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path

@@ -103,6 +103,10 @@ button:focus {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: default;
+}
+
 select,
 input {
   padding: 5px;
@@ -144,7 +148,7 @@ input {
   font-weight: var(--fw-bold);
 }
 
-.primary-btn:hover,
-.primary-btn:focus {
+.primary-btn:hover:not(:disabled),
+.primary-btn:focus:not(:disabled) {
   background-color: var(--clr-tertiary-75);
 }
