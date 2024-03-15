@@ -1,6 +1,37 @@
 <script>
+  import { onMount } from 'svelte';
+  import SetSelect from './SetSelect.svelte';
+
+  let setsData = {};
+  let selectComponents = [];
+
+  onMount(async () => {
+    await fetchSets();
+    addSet();
+  });
+
+  async function fetchSets() {
+    try {
+      const url = '/api/sets';
+      const response = await fetch(url);
+      setsData = await response.json();
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   function addSet() {
-    console.log('Adding new set...');
+    if (selectComponents.length < Object.entries(setsData).length) {
+      selectComponents = [...selectComponents, { id: Math.random() }];
+    }
+  }
+
+  function removeSet(id) {
+    if (selectComponents.length > 1) {
+      selectComponents = selectComponents.filter(
+        (component) => component.id !== id
+      );
+    }
   }
 
   function generate() {
@@ -11,21 +42,11 @@
 <div class="center">
   <main>
     <h1>Choose packs</h1>
-    <div class="flex-group">
-      <select>
-        <option value="tfc">The First Chapter</option>
-        <option value="rotf">Rise of the Floodborn</option>
-        <option value="iti">Into the Inklands</option>
-      </select>
-      <input id="" type="number" min="1" value="1" />
-      <button class="delete-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
-          ><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path
-            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
-          /></svg
-        >
-      </button>
-    </div>
+    {#each selectComponents as component, _ (component.id)}
+      <SetSelect id={component.id} {removeSet} {setsData} />
+    {:else}
+      <p>Fetching sets failed, please reload the page...</p>
+    {/each}
     <button class="add-btn" on:click={addSet}
       ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
         ><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path
@@ -45,46 +66,34 @@
     margin-bottom: 3rem;
   }
 
-  input {
-    max-width: 3rem;
-  }
-
-  .delete-btn {
-    display: flex;
-    align-items: center;
-    transition: transform 150ms;
-  }
-
-  .delete-btn:hover {
-    transform: rotateZ(15deg);
-  }
-
-  .delete-btn svg {
-    fill: var(--clr-error);
-    height: 1.5rem;
-    width: 1.5rem;
-  }
-
   .add-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.3rem;
     color: var(--clr-neutral-200);
-    margin: 1rem auto;
-    border: 1px solid var(--clr-neutral-200);
+    margin: 0.75rem;
     font-size: var(--fs-small);
-    padding: 0.3rem;
-    border-radius: 3rem;
-    min-width: 75%;
+    transition: color 150ms;
   }
 
   .add-btn:hover {
-    background-color: var(--clr-transparent-25);
+    color: var(--clr-tertiary);
+  }
+
+  .add-btn:hover svg {
+    fill: var(--clr-neutral-200);
+    background-color: var(--clr-tertiary);
   }
 
   .add-btn svg {
-    height: 1rem;
-    fill: var(--clr-neutral-200);
+    height: 1.25rem;
+    width: 1.25rem;
+    padding: 0.15rem;
+    fill: var(--clr-tertiary);
+    border-radius: 50%;
+    transition:
+      fill 150ms,
+      background-color 150ms;
   }
 </style>
