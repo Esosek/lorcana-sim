@@ -1,5 +1,5 @@
 <script>
-  import { cardPool } from '../stores/cardPool';
+  import cardPool from '../stores/cardPool';
   import PackPicker from './PackPicker.svelte';
   import Deckbuilder from './Deckbuilder.svelte';
 

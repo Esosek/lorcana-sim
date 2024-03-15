@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import SetSelect from './SetSelect.svelte';
-  import { cardPool } from '../stores/cardPool';
+  import cardPool from '../stores/cardPool';
 
   let setsData = {};
   let selectComponents = [];

@@ -1,10 +1,16 @@
 <script>
-  import { cardPool } from '../stores/cardPool';
+  import cardStore from '../stores/cardPool';
+
+  let cardPool = [];
+
+  cardStore.subscribe((value) => {
+    cardPool = [...value];
+  });
 </script>
 
 <main>
   <ul class="flex-group">
-    {#each $cardPool as card}
+    {#each cardPool as card}
       <li>
         <img
           src={card.images.thumbnail}
