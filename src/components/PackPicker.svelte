@@ -54,7 +54,7 @@
     const selectedPacks = getSelectedPacks();
     const cardPool = await generateCardPool(selectedPacks);
 
-    if (cardPool == null) return;
+    if (cardPool.error) return;
 
     console.log('Packs generated!');
     isGeneratingPacks = false;
@@ -76,21 +76,15 @@
       const url = `/api/packs?sets=${pickedPacks.join(',')}`;
       const response = await fetch(url);
 
-      if (!response.ok) {
-        throw Error('Server responded with status', response.status);
-      }
-
       const packData = await response.json();
+      return packData;
     } catch (error) {
-      console.error(error.message);
       errorMessages = [
         ...errorMessages,
         'Generating cards failed, please reload the page.',
       ];
-      return {};
+      return { error: error.message };
     }
-
-    return packData;
   }
 </script>
 
