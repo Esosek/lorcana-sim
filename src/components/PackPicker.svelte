@@ -56,8 +56,8 @@
 
     if (cardPool.error) return;
 
-    console.log('Packs generated!');
     isGeneratingPacks = false;
+    console.log('Packs generated!');
   }
 
   function getSelectedPacks() {
@@ -75,6 +75,9 @@
     try {
       const url = `/api/packs?sets=${pickedPacks.join(',')}`;
       const response = await fetch(url);
+
+      if (!response.ok)
+        throw Error('Server responded with status', response.status);
 
       const packData = await response.json();
       return packData;
