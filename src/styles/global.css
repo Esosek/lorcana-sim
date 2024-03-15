@@ -45,6 +45,7 @@ body {
   font-size: var(--fs-regular);
   color: var(--clr-neutral-200);
   background-color: var(--clr-primary);
+  padding: 1rem;
 }
 
 h1,
