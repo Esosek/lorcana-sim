@@ -2,12 +2,12 @@
   import { onMount } from 'svelte';
   import SetSelect from './SetSelect.svelte';
 
-  export let onSubmit;
-
   let setsData = {};
   let selectComponents = [];
   let setSelectValues = {};
   let isGeneratingPacks = false;
+
+  let errorMessages = [];
 
   onMount(async () => {
     await fetchSets();
@@ -21,6 +21,10 @@
       setsData = await response.json();
     } catch (error) {
       console.error(error.message);
+      errorMessages = [
+        ...errorMessages,
+        'Fetching sets failed, please reload the page.',
+      ];
     }
   }
 
@@ -43,44 +47,83 @@
     setSelectValues[id] = { [setKey]: count };
   }
 
-  function generate() {
+  async function generate() {
+    console.log('Generating packs...');
     isGeneratingPacks = true;
 
-    const pickedSets = [];
+    const selectedPacks = getSelectedPacks();
+    const cardPool = await generateCardPool(selectedPacks);
+
+    if (cardPool == null) return;
+
+    console.log('Packs generated!');
+    isGeneratingPacks = false;
+  }
+
+  function getSelectedPacks() {
+    const selectedPacks = [];
 
     Object.values(setSelectValues).forEach((set) => {
       for (let i = 0; i < Object.values(set)[0]; i++) {
-        pickedSets.push(Object.keys(set)[0]);
+        selectedPacks.push(Object.keys(set)[0]);
       }
     });
+    return selectedPacks;
+  }
 
-    onSubmit(pickedSets);
+  async function generateCardPool(pickedPacks) {
+    try {
+      const url = `/api/packs?sets=${pickedPacks.join(',')}`;
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw Error('Server responded with status', response.status);
+      }
+
+      const packData = await response.json();
+    } catch (error) {
+      console.error(error.message);
+      errorMessages = [
+        ...errorMessages,
+        'Generating cards failed, please reload the page.',
+      ];
+      return {};
+    }
+
+    return packData;
   }
 </script>
 
 <div class="center">
   <main>
     <h1>Choose packs</h1>
-    {#each selectComponents as component, _ (component.id)}
-      <SetSelect
-        id={component.id}
-        {removeSet}
-        {setsData}
-        onChange={onSelectChange}
-      />
-    {:else}
-      <p>Fetching sets failed, please reload the page...</p>
+    {#each errorMessages as message}
+      <p class="error">{message}</p>
     {/each}
-    <button class="add-btn" on:click={addSet}
-      ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-        ><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path
-          d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
-        /></svg
-      > Add set</button
-    >
-    <button class="primary-btn" disabled={isGeneratingPacks} on:click={generate}
-      >{isGeneratingPacks ? 'Generating...' : 'Generate'}</button
-    >
+
+    {#if errorMessages.length === 0}
+      {#each selectComponents as component, _ (component.id)}
+        <SetSelect
+          id={component.id}
+          {removeSet}
+          {setsData}
+          onChange={onSelectChange}
+        />
+      {/each}
+      <button class="add-btn" on:click={addSet}
+        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+          ><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path
+            d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
+          /></svg
+        > Add set</button
+      >
+      <button
+        class="primary-btn"
+        disabled={isGeneratingPacks}
+        on:click={generate}
+        >{isGeneratingPacks ? 'Generating...' : 'Generate'}</button
+      >
+    {/if}
   </main>
 </div>
 

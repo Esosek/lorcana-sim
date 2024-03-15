@@ -72,6 +72,10 @@ p {
   max-width: 80ch;
 }
 
+p.error {
+  color: var(--clr-error);
+}
+
 a {
   text-decoration: none;
   color: var(--clr-primary-700);
