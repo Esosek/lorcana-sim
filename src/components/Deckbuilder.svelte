@@ -1,5 +1,6 @@
 <script>
   import cardStore from '../stores/cardPool';
+  import CardSort from './BottomSheet.svelte';
 
   let cardPool = [];
 
@@ -9,6 +10,7 @@
 </script>
 
 <main>
+  <CardSort />
   <ul class="flex-group">
     {#each cardPool as card}
       <li>

@@ -112,6 +112,10 @@ button:disabled {
   cursor: default;
 }
 
+ul {
+  list-style: none;
+}
+
 select,
 input {
   padding: 5px;

@@ -1,5 +1,5 @@
 import { writable, get } from 'svelte/store';
-import sortOptions, { SortOptions } from './sortOptions';
+import sortOptions, { SortOptions, RarityTable } from './sortOptions';
 
 const cardPool = writable([]);
 
@@ -8,13 +8,18 @@ function set(cards) {
 }
 
 function sort(cards, options) {
-  if (options.sortBy === SortOptions.Mana) {
+  if (options.sortBy === SortOptions.Ink) {
     if (options.ascending) {
       cards.sort((a, b) => a.cost - b.cost);
     } else {
       cards.sort((a, b) => b.cost - a.cost);
     }
   } else if (options.sortBy === SortOptions.Rarity) {
+    if (options.ascending) {
+      cards.sort((a, b) => RarityTable[a.rarity] - RarityTable[b.rarity]);
+    } else {
+      cards.sort((a, b) => RarityTable[b.rarity] - RarityTable[a.rarity]);
+    }
   }
 
   cardPool.set(cards);
