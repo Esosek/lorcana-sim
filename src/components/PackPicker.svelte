@@ -97,7 +97,15 @@
     let cardList = [];
 
     for (const pack in generatedPacks) {
-      cardList = [...cardList, ...generatedPacks[pack].cards];
+      generatedPacks[pack].cards.forEach((card) => {
+        const existingCard = cardList.find((c) => c.id === card.id);
+        if (existingCard) {
+          existingCard.quantity++;
+        } else {
+          card.quantity = 1;
+          cardList.push(card);
+        }
+      });
     }
 
     cardPool.set(cardList);
@@ -138,6 +146,10 @@
 </div>
 
 <style>
+  .center {
+    min-height: 100vh;
+  }
+
   h1 {
     text-transform: uppercase;
     letter-spacing: 3px;
