@@ -1,6 +1,7 @@
 <script>
   import cardStore from '../stores/cardPool';
   import CardSort from './BottomSheet.svelte';
+  import Sidebar from './Sidebar.svelte';
 
   let cardPool = [];
 
@@ -11,6 +12,7 @@
 
 <main>
   <CardSort />
+  <h1 class="center">Card pool</h1>
   <ul class="flex-group">
     {#each cardPool as card}
       <li>
@@ -28,10 +30,14 @@
     {/each}
   </ul>
 </main>
+<Sidebar />
 
 <style>
+  main {
+    padding-right: 20%;
+  }
+
   .flex-group {
-    align-items: start;
     gap: 1.5rem;
   }
 
@@ -40,7 +46,7 @@
     max-width: 250px;
     border-radius: 0.5rem;
     overflow: hidden;
-    /* box-shadow: 0 0 5px var(--clr-transparent-50); */
+    box-shadow: 0 0 5px var(--clr-transparent-50);
     transition: transform 150ms ease-out;
   }
 
@@ -58,7 +64,7 @@
     background-color: var(--clr-outline);
     border-radius: 50%;
     font-size: var(--fs-large);
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     padding: 1.5rem;
     box-shadow: 0 0 5px var(--clr-transparent-50);
   }

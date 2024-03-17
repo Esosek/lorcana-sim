@@ -24,6 +24,7 @@ function removeCard(card) {}
 
 export default {
   subscribe: deck.subscribe,
+  length: get(deck).length,
   add: addCard,
   remove: removeCard,
 };
