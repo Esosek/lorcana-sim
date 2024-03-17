@@ -150,13 +150,6 @@
     min-height: 100vh;
   }
 
-  h1 {
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    font-weight: var(--fw-light);
-    margin-bottom: 3rem;
-  }
-
   .add-btn {
     display: flex;
     align-items: center;
