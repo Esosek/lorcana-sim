@@ -1,6 +1,7 @@
 <script>
   import { get } from 'svelte/store';
   import sortOptions, { SortOptions } from '../stores/sortOptions';
+  import deckStore from '../stores/deck';
 
   function sortCards(options) {
     const currentOptions = get(sortOptions);
@@ -14,7 +15,7 @@
 </script>
 
 <div class="sort-options flex-group">
-  <p class="deck-count">Cards in Deck : 0</p>
+  <p class="deck-count">Cards in Deck : {$deckStore.length}</p>
   <section class="sort flex-group">
     <p class="label">Sort by</p>
     <button
