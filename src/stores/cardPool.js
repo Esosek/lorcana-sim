@@ -25,6 +25,24 @@ function sort(cards, options) {
   cardPool.set(cards);
 }
 
+function add(card) {
+  // TODO: Implement adding cards to cardPool
+}
+
+function remove(cardId) {
+  cardPool.update((prevPool) => {
+    const cardIndex = prevPool.findIndex((c) => c.id === cardId);
+    if (cardIndex !== -1) {
+      const poolCard = prevPool[cardIndex];
+      poolCard.quantity--;
+      if (poolCard.quantity <= 0) {
+        prevPool.splice(cardIndex, 1);
+      }
+    }
+    return prevPool;
+  });
+}
+
 sortOptions.subscribe((options) => {
   sort(get(cardPool), options);
 });
@@ -32,4 +50,6 @@ sortOptions.subscribe((options) => {
 export default {
   subscribe: cardPool.subscribe,
   set,
+  add,
+  remove,
 };

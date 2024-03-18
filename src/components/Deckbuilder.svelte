@@ -1,31 +1,33 @@
 <script>
-  import cardStore from '../stores/cardPool';
+  import pool from '../stores/cardPool';
+  import deck from '../stores/deck';
   import CardSort from './BottomSheet.svelte';
   import Sidebar from './Sidebar.svelte';
 
-  let cardPool = [];
-
-  cardStore.subscribe((value) => {
-    cardPool = [...value];
-  });
+  function addCard(card) {
+    deck.add(card);
+    pool.remove(card.id);
+  }
 </script>
 
 <main>
   <CardSort />
   <h1 class="center">Card pool</h1>
   <ul class="flex-group">
-    {#each cardPool as card}
+    {#each $pool as card}
       <li>
-        <div class="quantity center">
-          <p>{card.quantity}</p>
-          <span class="multiplier">x</span>
-        </div>
-        <img
-          src={card.images.thumbnail}
-          alt={`Image of ${card.fullName} card`}
-          width="250"
-          height="349"
-        />
+        <button on:click={() => addCard(card)}>
+          <div class="quantity center">
+            <p>{card.quantity}</p>
+            <span class="multiplier">x</span>
+          </div>
+          <img
+            src={card.images.thumbnail}
+            alt={`Image of ${card.fullName} card`}
+            width="250"
+            height="349"
+          />
+        </button>
       </li>
     {/each}
   </ul>
@@ -53,6 +55,10 @@
   li:hover {
     cursor: pointer;
     transform: scale(1.025);
+  }
+
+  li button {
+    color: var(--clr-neutral-200);
   }
 
   .quantity {

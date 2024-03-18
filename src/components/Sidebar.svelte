@@ -1,33 +1,33 @@
 <script>
   import deck from '../stores/deck';
 
-  let cardList = [];
-
-  deck.subscribe((value) => {
-    cardList = [...value];
-  });
+  function removeCard(card) {
+    deck.remove(card.id);
+  }
 </script>
 
 <aside class="flex-group">
   <h1>Deck</h1>
-  <p>Count: {deck.length}</p>
-  {#if deck.length != 0}
+  <p>Count: {$deck.length}</p>
+  {#if $deck.length != 0}
     <ul class="decklist">
-      {#each cardList as card}
+      {#each $deck as card}
         <li data-ink={card.color}>
-          <p>{card.cost}</p>
+          <button on:click={() => removeCard(card)}>
+            <p>{card.cost}</p>
 
-          <div
-            class="card-name"
-            style={card.type === 'Character' ? 'justify-self: start' : ''}
-          >
-            <p class="card-basename">{card.baseName}</p>
-            {#if card.subtitle}
-              <p class="card-subtitle">{card.subtitle}</p>
-            {/if}
-          </div>
+            <div
+              class="card-name"
+              style={card.type === 'Character' ? 'justify-self: start' : ''}
+            >
+              <p class="card-basename">{card.baseName}</p>
+              {#if card.subtitle}
+                <p class="card-subtitle">{card.subtitle}</p>
+              {/if}
+            </div>
 
-          <p>{card.quantity}x</p>
+            <p>{card.quantity}x</p>
+          </button>
         </li>
       {/each}
     </ul>
@@ -40,6 +40,7 @@
   aside {
     position: fixed;
     flex-direction: column;
+    flex-wrap: nowrap;
     background-color: var(--clr-secondary);
     box-shadow: 0 -5px 5px var(--clr-transparent-50);
     top: 0;
@@ -59,14 +60,12 @@
     grid-auto-rows: 1fr;
     margin-block: 1.5rem;
     gap: 5px;
+    width: 100%;
+    overflow: scroll;
   }
 
   li {
     --_ink-color: var(--ink-color, green);
-    display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
-    justify-items: center;
-    align-items: center;
     background-color: var(--_ink-color);
     padding-block: 0.15rem;
     border-radius: 0.3rem;
@@ -75,6 +74,14 @@
   li:hover {
     cursor: pointer;
     box-shadow: inset 0 0 0 2px var(--clr-neutral-200);
+  }
+
+  button {
+    color: inherit;
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    align-items: center;
+    width: 100%;
   }
 
   [data-ink='Amber'] {
@@ -99,6 +106,7 @@
   .card-name {
     display: flex;
     flex-direction: column;
+    text-align: start;
   }
 
   .card-basename,

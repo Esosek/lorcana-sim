@@ -102,8 +102,7 @@
         if (existingCard) {
           existingCard.quantity++;
         } else {
-          card.quantity = 1;
-          cardList.push(card);
+          cardList.push({ ...card, quantity: 1 });
         }
       });
     }
