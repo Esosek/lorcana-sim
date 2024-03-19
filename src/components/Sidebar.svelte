@@ -1,23 +1,54 @@
 <script>
+  import { get } from 'svelte/store';
+
   import deck, { deckLength } from '../stores/deck';
   import pool from '../stores/cardPool';
 
   import inkableIconImg from '../assets/images/inkable_icon.png';
   import nonInkableIconImg from '../assets/images/non_inkable_icon.png';
+  import { onMount } from 'svelte';
+
+  let previewElement;
+
+  onMount(() => {
+    previewElement = document.getElementById('preview');
+  });
 
   function removeCard(card) {
     deck.remove(card.id);
     pool.add(card);
+  }
+
+  function previewCard(cardId, event) {
+    const cards = get(deck);
+    const card = cards.find((c) => c.id === cardId);
+
+    if (card !== undefined) {
+      console.log(event);
+      previewElement.src = card.images.thumbnail;
+      previewElement.alt = `Preview of ${card.fullName}`;
+      previewElement.style.display = 'block';
+      previewElement.style.top = `${event.target.offsetTop}px`;
+    }
+  }
+
+  function hidePreview() {
+    previewElement.style.display = 'none';
   }
 </script>
 
 <aside class="flex-group">
   <h1>Deck</h1>
   <p>Count: {$deckLength}</p>
+  <img id="preview" src="" alt="" style="display: none" />
   {#if $deck.length != 0}
     <ul class="decklist">
       {#each $deck as card}
-        <li data-ink={card.color}>
+        <li
+          on:mouseenter={(event) => previewCard(card.id, event)}
+          on:mouseleave={hidePreview}
+          data-ink={card.color}
+        >
           <button on:click={() => removeCard(card)}>
             <div class="card-cost">
               <img
@@ -72,7 +103,7 @@
     margin-block: 1.5rem;
     gap: 5px;
     width: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
   }
 
   li {
@@ -85,6 +116,13 @@
   li:hover {
     cursor: pointer;
     box-shadow: inset 0 0 0 2px var(--clr-neutral-200);
+  }
+
+  #preview {
+    position: absolute;
+    top: 25%;
+    left: -250px;
+    width: 250px;
   }
 
   button {
