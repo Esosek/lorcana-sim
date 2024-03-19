@@ -6,6 +6,7 @@
   let isCardPoolGenerated = false;
 
   cardPool.subscribe((value) => {
+    if (isCardPoolGenerated) return;
     if (value.length > 0) {
       isCardPoolGenerated = true;
     }

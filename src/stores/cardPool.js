@@ -5,6 +5,7 @@ const cardPool = writable([]);
 
 function set(cards) {
   sort(cards, get(sortOptions));
+  cardPool.set(cards);
 }
 
 function sort(cards, options) {
@@ -21,12 +22,20 @@ function sort(cards, options) {
       cards.sort((a, b) => RarityTable[b.rarity] - RarityTable[a.rarity]);
     }
   }
-
-  cardPool.set(cards);
 }
 
 function add(card) {
-  // TODO: Implement adding cards to cardPool
+  cardPool.update((prevPool) => {
+    const cardIndex = prevPool.findIndex((c) => c.id === card.id);
+    if (cardIndex !== -1) {
+      prevPool[cardIndex].quantity++;
+      return prevPool;
+    } else {
+      prevPool.push({ ...card, quantity: 1 });
+      sort(prevPool, get(sortOptions));
+      return prevPool;
+    }
+  });
 }
 
 function remove(cardId) {

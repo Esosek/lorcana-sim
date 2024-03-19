@@ -1,5 +1,5 @@
 <script>
-  import deck from '../stores/deck';
+  import deck, { deckLength } from '../stores/deck';
   import pool from '../stores/cardPool';
 
   import inkableIconImg from '../assets/images/inkable_icon.png';
@@ -13,7 +13,7 @@
 
 <aside class="flex-group">
   <h1>Deck</h1>
-  <p>Count: {$deck.length}</p>
+  <p>Count: {$deckLength}</p>
   {#if $deck.length != 0}
     <ul class="decklist">
       {#each $deck as card}
