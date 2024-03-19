@@ -28,6 +28,9 @@ function sort(cards, options) {
   function sortByInk(cards, isAscending) {
     cards.sort((a, b) => {
       const costDif = a.cost - b.cost;
+      if (costDif === 0) {
+        return a.fullName < b.fullName ? -1 : 1;
+      }
       return isAscending ? costDif : -costDif;
     });
   }
@@ -35,11 +38,12 @@ function sort(cards, options) {
   function sortByRarity(cards, isAscending) {
     cards.sort((a, b) => {
       const rarityDif = RarityTable[a.rarity] - RarityTable[b.rarity];
+      if (rarityDif === 0) {
+        return a.fullName < b.fullName ? -1 : 1;
+      }
       return isAscending ? rarityDif : -rarityDif;
     });
   }
-
-  function sortAlphabetically(cards) {}
 }
 
 function add(card) {

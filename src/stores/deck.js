@@ -1,4 +1,4 @@
-import { writable, get } from 'svelte/store';
+import { writable } from 'svelte/store';
 
 const deck = writable([]);
 export const deckLength = writable(0);
@@ -13,8 +13,18 @@ function addCard(card) {
       prevDeck.push({ ...card, quantity: 1 });
     }
 
-    prevDeck.sort((a, b) => a.cost - b.cost);
+    sort(prevDeck);
     return prevDeck;
+  });
+}
+
+function sort(deck) {
+  deck.sort((a, b) => {
+    const costDif = a.cost - b.cost;
+    if (costDif === 0) {
+      return a.fullName < b.fullName ? -1 : 1;
+    }
+    return costDif;
   });
 }
 
