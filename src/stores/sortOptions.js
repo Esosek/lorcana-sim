@@ -22,22 +22,4 @@ const defaultOptions = {
 
 const sortOptions = writable(defaultOptions);
 
-const sortBy = (value) => {
-  sortOptions.update((prevState) => ({
-    ...prevState,
-    sortBy: value,
-  }));
-};
-
-const setAscending = (value) => {
-  sortOptions.update((prevState) => ({
-    ...prevState,
-    ascending: value,
-  }));
-};
-
-export default {
-  subscribe: sortOptions.subscribe,
-  sortBy,
-  setAscending,
-};
+export default sortOptions;

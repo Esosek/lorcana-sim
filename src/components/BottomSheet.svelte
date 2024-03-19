@@ -1,16 +1,16 @@
 <script>
-  import { get } from 'svelte/store';
   import sortOptions, { SortOptions } from '../stores/sortOptions';
   import deckStore from '../stores/deck';
 
   function sortCards(options) {
-    const currentOptions = get(sortOptions);
-
-    if (options === currentOptions.sortBy) {
-      sortOptions.setAscending(!currentOptions.ascending);
-    } else {
-      sortOptions.sortBy(options);
-    }
+    sortOptions.update((prevValue) => {
+      if (options === prevValue.sortBy) {
+        prevValue.ascending = !prevValue.ascending;
+      } else {
+        prevValue.sortBy = options;
+      }
+      return prevValue;
+    });
   }
 </script>
 

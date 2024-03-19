@@ -3,25 +3,43 @@ import sortOptions, { SortOptions, RarityTable } from './sortOptions';
 
 const cardPool = writable([]);
 
+sortOptions.subscribe((newValue) => {
+  const cards = get(cardPool);
+  sort(cards, newValue);
+  cardPool.set(cards);
+});
+
 function set(cards) {
   sort(cards, get(sortOptions));
   cardPool.set(cards);
 }
 
 function sort(cards, options) {
-  if (options.sortBy === SortOptions.Ink) {
-    if (options.ascending) {
-      cards.sort((a, b) => a.cost - b.cost);
-    } else {
-      cards.sort((a, b) => b.cost - a.cost);
-    }
-  } else if (options.sortBy === SortOptions.Rarity) {
-    if (options.ascending) {
-      cards.sort((a, b) => RarityTable[a.rarity] - RarityTable[b.rarity]);
-    } else {
-      cards.sort((a, b) => RarityTable[b.rarity] - RarityTable[a.rarity]);
-    }
+  switch (options.sortBy) {
+    case SortOptions.Ink:
+      sortByInk(cards, options.ascending);
+      break;
+    case SortOptions.Rarity:
+      sortByRarity(cards, options.ascending);
+    default:
+      break;
   }
+
+  function sortByInk(cards, isAscending) {
+    cards.sort((a, b) => {
+      const costDif = a.cost - b.cost;
+      return isAscending ? costDif : -costDif;
+    });
+  }
+
+  function sortByRarity(cards, isAscending) {
+    cards.sort((a, b) => {
+      const rarityDif = RarityTable[a.rarity] - RarityTable[b.rarity];
+      return isAscending ? rarityDif : -rarityDif;
+    });
+  }
+
+  function sortAlphabetically(cards) {}
 }
 
 function add(card) {
