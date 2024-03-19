@@ -1,8 +1,13 @@
 <script>
   import deck from '../stores/deck';
+  import pool from '../stores/cardPool';
+
+  import inkableIconImg from '../assets/images/inkable_icon.png';
+  import nonInkableIconImg from '../assets/images/non_inkable_icon.png';
 
   function removeCard(card) {
     deck.remove(card.id);
+    pool.add(card);
   }
 </script>
 
@@ -14,7 +19,13 @@
       {#each $deck as card}
         <li data-ink={card.color}>
           <button on:click={() => removeCard(card)}>
-            <p>{card.cost}</p>
+            <div class="card-cost">
+              <img
+                src={card.inkwell ? inkableIconImg.src : nonInkableIconImg.src}
+                alt="Inkable symbol"
+              />
+              <p>{card.cost}</p>
+            </div>
 
             <div
               class="card-name"
@@ -79,7 +90,7 @@
   button {
     color: inherit;
     display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-columns: 50px 4fr 1fr;
     align-items: center;
     width: 100%;
   }
@@ -101,6 +112,16 @@
   }
   [data-ink='Steel'] {
     --ink-color: #6d7682;
+  }
+
+  .card-cost {
+    position: relative;
+  }
+
+  .card-cost img {
+    position: absolute;
+    height: 100%;
+    right: 5px;
   }
 
   .card-name {
