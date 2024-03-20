@@ -28,7 +28,6 @@
       previewElement.src = card.images.thumbnail;
       previewElement.alt = `Preview of ${card.fullName}`;
       previewElement.style.display = 'block';
-      previewElement.style.top = `${event.target.offsetTop}px`;
     }
   }
 
