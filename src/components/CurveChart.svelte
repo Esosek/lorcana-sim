@@ -33,7 +33,10 @@
   <ul class="chart-list">
     {#each Object.entries(chartValues) as chartBar}
       <li>
-        <div class="chart-bar" style="height:{(chartBar[1] / maxValue) * 100}%">
+        <div
+          class="chart-bar"
+          style="height:{(chartBar[1] / maxValue) * (6.25 * 0.6)}rem"
+        >
           {#if chartBar[1] > 0}
             <p class="count-label">{chartBar[1]}</p>
           {/if}
@@ -53,7 +56,7 @@
     grid-template-columns: repeat(6, 2rem);
     align-items: end;
     gap: 0.5rem;
-    height: 100px;
+    height: 6.25rem;
   }
   li {
     display: flex;
