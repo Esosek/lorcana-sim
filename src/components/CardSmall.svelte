@@ -3,7 +3,9 @@
   import nonInkableIconImg from '../assets/images/non_inkable_icon.png';
 
   export let card;
-  export let onClick, onMouseEnter, onMouseLeave;
+  export let onClick;
+  export let onMouseEnter = () => {};
+  export let onMouseLeave = () => {};
 </script>
 
 <li data-ink={card.color}>

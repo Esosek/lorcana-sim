@@ -29,7 +29,7 @@
   }
 
   function previewCard(cardId) {
-    const cards = get(deck);
+    const cards = $options.isBuilding ? get(pool) : get(deck);
     const card = cards.find((c) => c.id === cardId);
 
     if (card !== undefined) {
