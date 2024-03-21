@@ -2,12 +2,12 @@
   import options, { SortOptions } from '../stores/options';
   import deckStore from '../stores/deck';
 
-  function sortCards(options) {
+  function sortCards(newValue) {
     options.update((prevValue) => {
-      if (options === prevValue.sortBy) {
+      if (newValue === prevValue.sortBy) {
         prevValue.ascending = !prevValue.ascending;
       } else {
-        prevValue.sortBy = options;
+        prevValue.sortBy = newValue;
       }
       return prevValue;
     });

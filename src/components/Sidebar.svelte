@@ -17,8 +17,14 @@
   });
 
   function removeCard(card) {
-    deck.remove(card.id);
-    pool.add(card);
+    if (get(options).isBuilding) {
+      deck.add(card);
+      pool.remove(card.id);
+    } else {
+      deck.remove(card.id);
+      pool.add(card);
+    }
+
     hidePreview();
   }
 

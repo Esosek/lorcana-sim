@@ -1,4 +1,6 @@
 <script>
+  import { get } from 'svelte/store';
+
   import pool from '../stores/cardPool';
   import deck from '../stores/deck';
   import options from '../stores/options';
@@ -7,8 +9,13 @@
   import Sidebar from './Sidebar.svelte';
 
   function addCard(card) {
-    deck.add(card);
-    pool.remove(card.id);
+    if (get(options).isBuilding) {
+      deck.remove(card.id);
+      pool.add(card);
+    } else {
+      deck.add(card);
+      pool.remove(card.id);
+    }
   }
 </script>
 
