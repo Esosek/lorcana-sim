@@ -7,6 +7,7 @@
   import inkableIconImg from '../assets/images/inkable_icon.png';
   import nonInkableIconImg from '../assets/images/non_inkable_icon.png';
   import { onMount } from 'svelte';
+  import CurveChart from './CurveChart.svelte';
 
   let previewElement;
 
@@ -17,6 +18,7 @@
   function removeCard(card) {
     deck.remove(card.id);
     pool.add(card);
+    hidePreview();
   }
 
   function previewCard(cardId, event) {
@@ -24,7 +26,6 @@
     const card = cards.find((c) => c.id === cardId);
 
     if (card !== undefined) {
-      console.log(event);
       previewElement.src = card.images.thumbnail;
       previewElement.alt = `Preview of ${card.fullName}`;
       previewElement.style.display = 'block';
@@ -37,7 +38,7 @@
 </script>
 
 <aside class="flex-group">
-  <h1>Deck</h1>
+  <h2>Deck</h2>
   <p>Count: {$deckLength}</p>
   <img id="preview" src="" alt="" style="display: none" />
   {#if $deck.length != 0}
@@ -72,6 +73,7 @@
         </li>
       {/each}
     </ul>
+    <CurveChart />
   {:else}
     <p class="empty-text">No cards...</p>
   {/if}
@@ -91,7 +93,8 @@
     padding-inline: 0.5rem;
   }
 
-  h1 {
+  h2 {
+    font-size: var(--fs-large);
     margin-bottom: 0.5rem;
   }
 
@@ -99,7 +102,7 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-auto-rows: 1fr;
-    margin-block: 1.5rem;
+    margin-block: 0.5rem;
     gap: 5px;
     width: 100%;
     overflow-y: scroll;

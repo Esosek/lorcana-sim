@@ -55,13 +55,13 @@ aside {
 h1,
 h2,
 h3 {
-  margin-block: 1.5rem 0.75rem;
-}
-
-h1 {
+  margin-block: 1.5rem;
   text-transform: uppercase;
   letter-spacing: 3px;
   font-weight: var(--fw-light);
+}
+
+h1 {
   margin-bottom: 3rem;
   font-size: var(--fs-large);
 }
