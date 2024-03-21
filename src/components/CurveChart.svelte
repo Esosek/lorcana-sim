@@ -25,7 +25,6 @@
     });
     maxValue = Math.max(...Object.values(updatedChartValues));
     chartValues = { ...updatedChartValues };
-    console.log(Object.entries(chartValues));
   });
 </script>
 

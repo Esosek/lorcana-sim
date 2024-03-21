@@ -1,16 +1,16 @@
 import { writable, get } from 'svelte/store';
-import sortOptions, { SortOptions, RarityTable } from './sortOptions';
+import options, { SortOptions, RarityTable } from './options';
 
 const cardPool = writable([]);
 
-sortOptions.subscribe((newValue) => {
+options.subscribe((newValue) => {
   const cards = get(cardPool);
   sort(cards, newValue);
   cardPool.set(cards);
 });
 
 function set(cards) {
-  sort(cards, get(sortOptions));
+  sort(cards, get(options));
   cardPool.set(cards);
 }
 
@@ -54,7 +54,7 @@ function add(card) {
       return prevPool;
     } else {
       prevPool.push({ ...card, quantity: 1 });
-      sort(prevPool, get(sortOptions));
+      sort(prevPool, get(options));
       return prevPool;
     }
   });
@@ -74,7 +74,7 @@ function remove(cardId) {
   });
 }
 
-sortOptions.subscribe((options) => {
+options.subscribe((options) => {
   sort(get(cardPool), options);
 });
 

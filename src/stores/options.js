@@ -18,8 +18,9 @@ export const SortOptions = {
 const defaultOptions = {
   sortBy: SortOptions.Ink,
   ascending: true,
+  isBuilding: false,
 };
 
-const sortOptions = writable(defaultOptions);
+const options = writable(defaultOptions);
 
-export default sortOptions;
+export default options;
