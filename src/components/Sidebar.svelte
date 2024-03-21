@@ -1,13 +1,15 @@
 <script>
   import { get } from 'svelte/store';
+  import { onMount } from 'svelte';
 
   import deck, { deckLength } from '../stores/deck';
   import pool from '../stores/cardPool';
 
+  import CurveChart from './CurveChart.svelte';
+  import InkableCount from './InkableCount.svelte';
+
   import inkableIconImg from '../assets/images/inkable_icon.png';
   import nonInkableIconImg from '../assets/images/non_inkable_icon.png';
-  import { onMount } from 'svelte';
-  import CurveChart from './CurveChart.svelte';
 
   let previewElement;
 
@@ -74,6 +76,7 @@
       {/each}
     </ul>
     <CurveChart />
+    <InkableCount />
   {:else}
     <p class="empty-text">No cards...</p>
   {/if}
