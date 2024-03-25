@@ -8,11 +8,19 @@
 <div class="inkable-count">
   <div class="counter">
     <img src={nonInkableIconImg.src} alt="Non-inkable symbol" />
-    <p class="counter-value">{$deck.filter((card) => !card.inkwell).length}</p>
+    <p class="counter-value">
+      {$deck
+        .filter((card) => !card.inkwell)
+        .reduce((acc, card) => acc + card.quantity, 0)}
+    </p>
   </div>
   <div class="counter">
     <img src={inkableIconImg.src} alt="Inkable symbol" />
-    <p class="counter-value">{$deck.filter((card) => card.inkwell).length}</p>
+    <p class="counter-value">
+      {$deck
+        .filter((card) => card.inkwell)
+        .reduce((acc, card) => acc + card.quantity, 0)}
+    </p>
   </div>
 </div>
 
