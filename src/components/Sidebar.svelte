@@ -13,7 +13,7 @@
   let previewElement;
 
   onMount(() => {
-    previewElement = document.getElementById('preview');
+    previewElement = document.getElementById('sidebar-preview');
   });
 
   function removeCard(card) {
@@ -47,7 +47,7 @@
 <aside class="flex-group">
   <h2>{$options.isBuilding ? 'Card pool' : 'Deck'}</h2>
   <p>Cards in Deck: {$deckLength}</p>
-  <img id="preview" src="" alt="" style="display: none" />
+  <img id="sidebar-preview" src="" alt="" style="display: none" />
   {#if $options.isBuilding ? $pool.length != 0 : $deck.length != 0}
     <ul class="decklist">
       {#each $options.isBuilding ? $pool : $deck as card}
@@ -95,11 +95,12 @@
     overflow-y: scroll;
   }
 
-  #preview {
+  #sidebar-preview {
     position: absolute;
     top: 25%;
     left: -250px;
     width: 250px;
+    box-shadow: 0 0 5px 2px var(--clr-transparent-50);
   }
 
   .empty-text {
