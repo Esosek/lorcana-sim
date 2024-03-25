@@ -100,8 +100,6 @@
     justify-items: center;
     gap: 0.25rem;
     font-size: var(--fs-small);
-    font-weight: var(--fw-light);
-    letter-spacing: 1px;
     min-width: 100px;
   }
 
