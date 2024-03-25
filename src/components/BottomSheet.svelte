@@ -1,6 +1,6 @@
 <script>
   import options, { SortOptions } from '../stores/options';
-  import deckStore from '../stores/deck';
+  import deckStore, { deckLength } from '../stores/deck';
 
   function sortCards(newValue) {
     options.update((prevValue) => {
@@ -15,7 +15,7 @@
 </script>
 
 <div class="sort-options flex-group">
-  <p class="deck-count">Cards in Deck : {$deckStore.length}</p>
+  <p class="deck-count">Cards in Deck : {$deckLength}</p>
   <section class="sort flex-group">
     <p class="label">Sort by</p>
     <button
