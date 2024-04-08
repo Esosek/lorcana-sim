@@ -1,6 +1,6 @@
 <script>
   import options, { SortOptions } from '../stores/options';
-  import deckStore, { deckLength } from '../stores/deck';
+  import { deckLength } from '../stores/deck';
 
   function sortCards(newValue) {
     options.update((prevValue) => {

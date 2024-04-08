@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import '../../styles/global.css';
+  import ratingSet from '../../stores/ratingSet';
 
   let setsData = {};
   let setIndex = '1';
@@ -26,7 +27,9 @@
     }
   }
 
-  async function loadCards() {}
+  async function loadCards() {
+    ratingSet.set([1]);
+  }
 </script>
 
 <div class="center">
