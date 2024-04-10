@@ -2,8 +2,18 @@
   import { get } from 'svelte/store';
   import ratingSet from '../../stores/ratingSet';
   import CardLarge from '../CardLarge.svelte';
+  import { onMount } from 'svelte';
 
   let isFinished = false;
+  let selectedIndex = 0;
+
+  let orderSwapElement;
+  let newOrderInput;
+
+  onMount(() => {
+    orderSwapElement = document.getElementsByClassName('order-swap')[0];
+    newOrderInput = document.getElementById('order-input');
+  });
 
   function getCode() {
     isFinished = true;
@@ -19,17 +29,53 @@
     ratingSet.move(cardIndex, cardIndex + 1);
   }
 
-  function moveCardToIndex(cardIndex, newIndexPosition) {
-    ratingSet.move(cardIndex, newIndexPosition);
+  function openOrderModal(cardIndex) {
+    selectedIndex = cardIndex;
+    orderSwapElement.removeAttribute('style');
+    newOrderInput.focus();
+  }
+
+  function moveCardToIndex(event) {
+    event.preventDefault();
+    const newIndexPosition = event.target[0].value;
+    if (newIndexPosition !== '') {
+      ratingSet.move(selectedIndex, newIndexPosition - 1);
+    }
+    event.target[0].value = '';
+    orderSwapElement.style.display = 'none';
   }
 </script>
 
+<div class="order-swap center" style="display: none;">
+  <form on:submit={moveCardToIndex} class="order-swap__modal">
+    <label for="order-input">New order</label>
+    <input
+      type="number"
+      name="order-input"
+      id="order-input"
+      min="1"
+      max={$ratingSet.length}
+    />
+    <div class="flex-group">
+      <button type="submit" class="primary-btn">Set</button>
+      <button
+        type="button"
+        class="secondary-btn"
+        on:click={() => {
+          orderSwapElement.style.display = 'none';
+        }}>Cancel</button
+      >
+    </div>
+  </form>
+</div>
 <main class="center">
   <h1>Set cards</h1>
   <button class="primary-btn" on:click={getCode}>Done</button>
 
   {#if isFinished}
-    <p>Order copied to clipboard!</p>
+    <p>Copied to clipboard!</p>
+  {:else}
+    <p>Order cards from best to worst</p>
   {/if}
   <ul class="flex-group">
     {#each $ratingSet as card, index}
@@ -43,7 +89,9 @@
               /></svg
             >
           </button>
-          <button class="order-index">{index + 1}.</button>
+          <button class="order-index" on:click={() => openOrderModal(index)}
+            >{index + 1}.</button
+          >
           <button class="control-arrow" on:click={() => moveCardDown(index)}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"
               ><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path
@@ -60,6 +108,33 @@
 <style>
   main {
     flex-direction: column;
+  }
+
+  .order-swap {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    background-color: var(--clr-transparent-50);
+    backdrop-filter: blur(5px);
+    z-index: 150;
+  }
+
+  .order-swap__modal {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    background-color: var(--clr-secondary);
+    box-shadow: 0 5px 5px var(--clr-transparent-50);
+  }
+
+  #order-input {
+    text-align: center;
+  }
+
+  .order-swap__modal button {
+    margin-block: 0;
   }
 
   h1 {
