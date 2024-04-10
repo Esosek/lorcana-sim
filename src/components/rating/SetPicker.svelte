@@ -28,7 +28,18 @@
   }
 
   async function loadCards() {
-    ratingSet.set([1]);
+    try {
+      const url = `/api/cards?set=${setIndex}`;
+      const response = await fetch(url);
+      const cardData = await response.json();
+      ratingSet.set([...cardData]);
+    } catch (error) {
+      console.error(error.message);
+      errorMessages = [
+        ...errorMessages,
+        'Fetching cards failed, please reload the page.',
+      ];
+    }
   }
 </script>
 
