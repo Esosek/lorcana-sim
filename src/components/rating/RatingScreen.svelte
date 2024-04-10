@@ -1,4 +1,5 @@
 <script>
+  import { get } from 'svelte/store';
   import ratingSet from '../../stores/ratingSet';
   import CardLarge from '../CardLarge.svelte';
 
@@ -6,7 +7,8 @@
 
   function getCode() {
     isFinished = true;
-    console.log('Order copied!');
+    const cardIds = get(ratingSet).map((card) => card.id);
+    navigator.clipboard.writeText(cardIds);
   }
 
   function moveCardUp(cardIndex) {
