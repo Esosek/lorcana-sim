@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import '../../styles/global.css';
   import ratingSet from '../../stores/ratingSet';
+  import { RarityTable } from '../../stores/options';
 
   let setsData = {};
   let setIndex = '1';
@@ -32,6 +33,9 @@
       const url = `/api/cards?set=${setIndex}`;
       const response = await fetch(url);
       const cardData = await response.json();
+
+      cardData.sort((a, b) => RarityTable[a.rarity] - RarityTable[b.rarity]);
+
       ratingSet.set([...cardData]);
     } catch (error) {
       console.error(error.message);

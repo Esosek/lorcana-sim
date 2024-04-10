@@ -1,4 +1,5 @@
 import cardData from '../../data/cards.json';
+import { RarityTable } from '../../stores/options';
 
 export const prerender = false;
 
@@ -11,7 +12,10 @@ export function GET({ request }) {
     const cardsObject = cardData.cards;
     for (const card of cardsObject) {
       if (card.setNumber == setNumber) {
-        setCards.push(card);
+        // filter out special rarities
+        if (RarityTable[card.rarity] !== undefined) {
+          setCards.push(card);
+        }
       }
     }
 

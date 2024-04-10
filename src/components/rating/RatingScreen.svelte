@@ -75,6 +75,10 @@
     width: 1.5rem;
   }
 
+  .control-arrow:hover {
+    transform: scale(0.95);
+  }
+
   .control-arrow svg {
     fill: var(--clr-tertiary);
     transition: fill 150ms;
