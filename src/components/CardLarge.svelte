@@ -1,14 +1,17 @@
 <script>
   export let card;
-  export let onClick;
+  export let showQuantity = true;
+  export let onClick = () => {};
 </script>
 
-<li>
+<div class="card-item">
   <button on:click={onClick}>
-    <div class="quantity center">
-      <p>{card.quantity}</p>
-      <span class="multiplier">x</span>
-    </div>
+    {#if showQuantity}
+      <div class="quantity center">
+        <p>{card.quantity}</p>
+        <span class="multiplier">x</span>
+      </div>
+    {/if}
     <img
       src={card.images.thumbnail}
       alt={`Image of ${card.fullName} card`}
@@ -16,10 +19,10 @@
       height="349"
     />
   </button>
-</li>
+</div>
 
 <style>
-  li {
+  .card-item {
     position: relative;
     max-width: 250px;
     border-radius: 0.5rem;
@@ -28,12 +31,12 @@
     transition: transform 150ms ease-out;
   }
 
-  li:hover {
+  .card-item:hover {
     cursor: pointer;
     transform: scale(1.025);
   }
 
-  li button {
+  .card-item button {
     color: var(--clr-neutral-200);
   }
 

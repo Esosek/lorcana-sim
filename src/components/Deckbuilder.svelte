@@ -86,7 +86,9 @@
   {:else}
     <ul class="flex-group">
       {#each $pool as card}
-        <CardLarge {card} onClick={() => addCard(card)} />
+        <li>
+          <CardLarge {card} onClick={() => addCard(card)} />
+        </li>
       {/each}
     </ul>
   {/if}

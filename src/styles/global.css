@@ -96,10 +96,17 @@ a:focus {
 
 img,
 svg {
-  display: inline-block;
   max-width: 100%;
   width: auto;
   height: auto;
+}
+
+svg {
+  display: inline-block;
+}
+
+img {
+  display: block;
 }
 
 button {
