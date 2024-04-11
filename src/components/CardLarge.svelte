@@ -2,9 +2,11 @@
   export let card;
   export let showQuantity = true;
   export let onClick = () => {};
+  export let maxWidth = 250;
+  // min 160 max 310 and step 30
 </script>
 
-<div class="card-item">
+<div class="card-item" style="--max-width: {maxWidth}px">
   <button on:click={onClick}>
     {#if showQuantity}
       <div class="quantity center">
@@ -15,8 +17,8 @@
     <img
       src={card.images.thumbnail}
       alt={`Image of ${card.fullName} card`}
-      width="250"
-      height="349"
+      width={maxWidth}
+      height={maxWidth * 1.396}
     />
   </button>
 </div>
@@ -24,7 +26,7 @@
 <style>
   .card-item {
     position: relative;
-    max-width: 250px;
+    max-width: var(--max-width);
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0 0 5px var(--clr-transparent-50);
