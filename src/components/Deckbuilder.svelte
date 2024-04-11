@@ -42,13 +42,18 @@
   });
 
   function addCard(card) {
-    if (get(options).isBuilding) {
-      deck.remove(card.id);
-      pool.add(card);
-    } else {
+    if ($draft.isDrafting) {
       deck.add(card);
-      pool.remove(card.id);
+    } else {
+      if (get(options).isBuilding) {
+        deck.remove(card.id);
+        pool.add(card);
+      } else {
+        deck.add(card);
+        pool.remove(card.id);
+      }
     }
+
     hidePreview();
   }
 
