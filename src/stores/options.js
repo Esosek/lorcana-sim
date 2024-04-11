@@ -5,13 +5,9 @@ export const GameMode = {
   Draft: 'Draft',
 };
 
-export function toggleGameMode() {
+export function pickGameMode(gameMode) {
   options.update((prevOptions) => {
-    if (prevOptions.gameMode === GameMode.Sealed) {
-      prevOptions.gameMode = GameMode.Draft;
-    } else {
-      prevOptions.gameMode = GameMode.Sealed;
-    }
+    prevOptions.gameMode = gameMode;
     return { ...prevOptions };
   });
 }

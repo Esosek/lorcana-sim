@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import SetSelect from './SetSelect.svelte';
   import cardPool from '../stores/cardPool';
-  import options, { toggleGameMode, GameMode } from '../stores/options';
+  import options, { pickGameMode, GameMode } from '../stores/options';
 
   let setsData = {};
   let selectComponents = [];
@@ -124,12 +124,12 @@
         <button
           class="mode-btn"
           aria-current={$options.gameMode === GameMode.Sealed ? 'true' : null}
-          on:click={toggleGameMode}>Sealed</button
+          on:click={() => pickGameMode(GameMode.Sealed)}>Sealed</button
         >
         <button
           class="mode-btn"
           aria-current={$options.gameMode === GameMode.Draft ? 'true' : null}
-          on:click={toggleGameMode}>Draft</button
+          on:click={() => pickGameMode(GameMode.Draft)}>Draft</button
         >
       </div>
       {#each selectComponents as component, _ (component.id)}
