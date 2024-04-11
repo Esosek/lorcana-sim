@@ -13,15 +13,19 @@
       ratingString += `{"${card.id}": ${card.rating}},`;
     }
 
-    console.log(ratingString);
+    ratingSet.sortByRating();
     navigator.clipboard.writeText(ratingString);
   }
 </script>
 
 <main class="center">
   <h1>Set cards</h1>
-  <button class="primary-btn" on:click={getCode}>Export</button>
-
+  <div class="flex-group">
+    <button class="primary-btn" on:click={getCode}>Export</button>
+    <button class="secondary-btn" on:click={ratingSet.sortByRating()}
+      >Sort by rating</button
+    >
+  </div>
   {#if isFinished}
     <p>Copied to clipboard!</p>
   {:else}

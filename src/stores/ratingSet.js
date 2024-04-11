@@ -22,9 +22,18 @@ function decrement(cardIndex) {
   });
 }
 
+function sortByRating() {
+  ratingSet.update((prevSet) => {
+    const updatedSet = [...prevSet];
+    updatedSet.sort((a, b) => b.rating - a.rating);
+    return updatedSet;
+  });
+}
+
 export default {
   subscribe: ratingSet.subscribe,
   set: ratingSet.set,
   increment,
   decrement,
+  sortByRating,
 };
