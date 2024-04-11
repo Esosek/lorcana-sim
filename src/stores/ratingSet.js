@@ -2,16 +2,29 @@ import { writable } from 'svelte/store';
 
 const ratingSet = writable([]);
 
-function moveCard(prevIndex, newIndex) {
+function increment(cardIndex) {
   ratingSet.update((prevSet) => {
-    const [card] = prevSet.splice(prevIndex, 1);
-    prevSet.splice(newIndex, 0, card);
-    return prevSet;
+    const updatedSet = [...prevSet];
+    if (updatedSet[cardIndex].rating < 5.0) {
+      updatedSet[cardIndex].rating += 0.5;
+    }
+    return updatedSet;
+  });
+}
+
+function decrement(cardIndex) {
+  ratingSet.update((prevSet) => {
+    const updatedSet = [...prevSet];
+    if (updatedSet[cardIndex].rating > 1.0) {
+      updatedSet[cardIndex].rating -= 0.5;
+    }
+    return updatedSet;
   });
 }
 
 export default {
   subscribe: ratingSet.subscribe,
   set: ratingSet.set,
-  move: moveCard,
+  increment,
+  decrement,
 };

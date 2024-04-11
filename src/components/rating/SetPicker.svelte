@@ -35,6 +35,10 @@
       const cardData = await response.json();
 
       cardData.sort((a, b) => RarityTable[a.rarity] - RarityTable[b.rarity]);
+      cardData.map((card) => {
+        card.rating = 2.5;
+        return card;
+      });
 
       ratingSet.set([...cardData]);
     } catch (error) {
