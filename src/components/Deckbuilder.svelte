@@ -4,14 +4,19 @@
 
   import pool from '../stores/cardPool';
   import deck from '../stores/deck';
-  import options from '../stores/options';
+  import options, { GameMode } from '../stores/options';
   import CardSort from './BottomSheet.svelte';
   import CardLarge from './CardLarge.svelte';
   import Sidebar from './Sidebar.svelte';
   import CardSmall from './CardSmall.svelte';
+  import draft from '../stores/draft';
 
   let deckCards = {};
   let previewElement;
+  let isSealed = $options.gameMode === GameMode.Sealed;
+  let pageTitle = isSealed
+    ? 'Card pool'
+    : `Pack ${$draft.currentPackIndex + 1} – Pick ${$draft.currentPickIndex + 1}`;
 
   onMount(() => {
     previewElement = document.getElementById('deckbuild-preview');
@@ -66,7 +71,7 @@
 <main>
   <CardSort />
   <img id="deckbuild-preview" src="" alt="" style="display: none" />
-  <h1 class="center">{$options.isBuilding ? 'Deck' : 'Card pool'}</h1>
+  <h1 class="center">{$options.isBuilding ? 'Deck' : pageTitle}</h1>
 
   {#if $options.isBuilding}
     <div class="grid">
@@ -85,9 +90,13 @@
     </div>
   {:else}
     <ul class="flex-group">
-      {#each $pool as card}
+      {#each isSealed ? $pool : $draft.currentPack as card}
         <li>
-          <CardLarge {card} onClick={() => addCard(card)} />
+          <CardLarge
+            {card}
+            onClick={() => addCard(card)}
+            showQuantity={isSealed ? true : false}
+          />
         </li>
       {/each}
     </ul>

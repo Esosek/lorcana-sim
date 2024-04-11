@@ -68,7 +68,7 @@ function generatePack(setNumber) {
   ];
   const foil = generateCards(setNumber, Rarity.Foil, 1);
 
-  return [...commons, ...uncommons, ...rares, ...foil];
+  return [...foil, ...rares, ...uncommons, ...commons];
 }
 
 function generateCards(setNumber, rarity, count) {
