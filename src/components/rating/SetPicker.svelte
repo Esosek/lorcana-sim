@@ -36,7 +36,7 @@
 
       cardData.sort((a, b) => RarityTable[a.rarity] - RarityTable[b.rarity]);
       cardData.map((card) => {
-        card.rating = 2.5;
+        card.rating = 5 - RarityTable[card.rarity] / 2;
         return card;
       });
 
