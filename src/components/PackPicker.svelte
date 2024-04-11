@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import SetSelect from './SetSelect.svelte';
   import cardPool from '../stores/cardPool';
+  import options, { toggleGameMode, GameMode } from '../stores/options';
 
   let setsData = {};
   let selectComponents = [];
@@ -119,6 +120,18 @@
     {/each}
 
     {#if errorMessages.length === 0}
+      <div class="mode-picker">
+        <button
+          class="mode-btn"
+          aria-current={$options.gameMode === GameMode.Sealed ? 'true' : null}
+          on:click={toggleGameMode}>Sealed</button
+        >
+        <button
+          class="mode-btn"
+          aria-current={$options.gameMode === GameMode.Draft ? 'true' : null}
+          on:click={toggleGameMode}>Draft</button
+        >
+      </div>
       {#each selectComponents as component, _ (component.id)}
         <SetSelect
           id={component.id}
@@ -147,6 +160,29 @@
 <style>
   .center {
     min-height: 100vh;
+  }
+
+  .mode-picker {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 0.3rem;
+    overflow: clip;
+    border: 1px solid var(--clr-tertiary);
+    margin-block: 2rem;
+  }
+
+  .mode-btn {
+    padding: 0.75rem 2rem;
+    font-size: var(--fs-small);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: var(--fw-bold);
+    color: var(--clr-tertiary-75);
+  }
+
+  .mode-btn[aria-current='true'] {
+    background-color: var(--clr-tertiary);
+    color: var(--clr-primary);
   }
 
   .add-btn {
