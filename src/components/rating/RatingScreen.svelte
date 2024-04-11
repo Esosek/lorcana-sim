@@ -80,7 +80,11 @@
   <ul class="flex-group">
     {#each $ratingSet as card, index}
       <li>
-        <CardLarge {card} showQuantity={false} />
+        <CardLarge
+          {card}
+          showQuantity={false}
+          onClick={() => openOrderModal(index)}
+        />
         <div class="control flex-group">
           <button class="control-arrow" on:click={() => moveCardUp(index)}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"
