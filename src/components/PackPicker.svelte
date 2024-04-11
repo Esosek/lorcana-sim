@@ -69,9 +69,14 @@
 
     Object.values(setSelectValues).forEach((set) => {
       for (let i = 0; i < Object.values(set)[0]; i++) {
-        selectedPacks.push(Object.keys(set)[0]);
+        const playerCount = $options.gameMode === GameMode.Draft ? 8 : 1;
+        // Generate for each "player" in draft
+        for (let i = 0; i < playerCount; i++) {
+          selectedPacks.push(Object.keys(set)[0]);
+        }
       }
     });
+    console.log(selectedPacks);
     return selectedPacks;
   }
 
