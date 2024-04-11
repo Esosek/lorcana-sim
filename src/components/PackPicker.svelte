@@ -3,6 +3,7 @@
   import SetSelect from './SetSelect.svelte';
   import cardPool from '../stores/cardPool';
   import options, { pickGameMode, GameMode } from '../stores/options';
+  import draft from '../stores/draft';
 
   let setsData = {};
   let selectComponents = [];
@@ -61,7 +62,9 @@
     isGeneratingPacks = false;
     console.log('Packs generated!');
 
-    updatePoolStore(generatedPacks);
+    if ($options.gameMode === GameMode.Draft) {
+      draft.addPacks(generatedPacks);
+    } else updatePoolStore(generatedPacks);
   }
 
   function getSelectedPacks() {
@@ -76,7 +79,6 @@
         }
       }
     });
-    console.log(selectedPacks);
     return selectedPacks;
   }
 
