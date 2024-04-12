@@ -87,16 +87,16 @@ function removeBestCard(pack) {
   const packRatings = pack.cards.map((card) => setCardRatings[card.id]);
   const maxRating = Math.max(...packRatings);
 
-  const bestCards = pack.cards
+  const bestCardIndexes = pack.cards
     .map((card, index) => {
       if (setCardRatings[card.id] === maxRating) {
-        return { [index]: card };
+        return index;
       }
     })
     .filter((card) => card !== undefined);
 
   const bestCardIndex =
-    Object.keys(bestCards)[Math.floor(Math.random() * bestCards.length)];
+    bestCardIndexes[Math.floor(Math.random() * bestCardIndexes.length)];
 
   pack.cards.splice(bestCardIndex, 1);
   return pack;
