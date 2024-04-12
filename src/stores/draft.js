@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import options from './options';
+import cardRatings from '../data/cardRatings.json';
 
 const defaultDraft = {
   currentPackIndex: 0,
@@ -77,12 +78,27 @@ function endDraft() {
 
 function botPicks() {
   for (let i = 1; i < roundPacks.length; i++) {
-    removeBestCard(roundPacks[i].cards);
+    removeBestCard(roundPacks[i]);
   }
 }
 
 function removeBestCard(pack) {
-  pack.shift();
+  const setCardRatings = cardRatings[pack.setId];
+  const packRatings = pack.cards.map((card) => setCardRatings[card.id]);
+  const maxRating = Math.max(...packRatings);
+
+  const bestCards = pack.cards
+    .map((card, index) => {
+      if (setCardRatings[card.id] === maxRating) {
+        return { [index]: card };
+      }
+    })
+    .filter((card) => card !== undefined);
+
+  const bestCardIndex =
+    Object.keys(bestCards)[Math.floor(Math.random() * bestCards.length)];
+
+  pack.cards.splice(bestCardIndex, 1);
   return pack;
 }
 
