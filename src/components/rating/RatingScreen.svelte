@@ -10,7 +10,7 @@
     let ratingString = '';
 
     for (const card of get(ratingSet)) {
-      ratingString += `{"${card.id}": ${card.rating}},`;
+      ratingString += `"${card.id}": ${card.rating},`;
     }
 
     ratingSet.sortByRating();
