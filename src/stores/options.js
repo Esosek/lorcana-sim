@@ -31,7 +31,7 @@ const defaultOptions = {
   sortBy: SortOptions.Ink,
   ascending: true,
   isBuilding: false,
-  gameMode: GameMode.Sealed,
+  gameMode: GameMode.Draft,
 };
 
 const options = writable(defaultOptions);

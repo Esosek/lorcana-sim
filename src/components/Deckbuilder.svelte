@@ -14,9 +14,12 @@
   let deckCards = {};
   let previewElement;
   let isSealed = $options.gameMode === GameMode.Sealed;
-  let pageTitle = isSealed
-    ? 'Card pool'
-    : `Pack ${$draft.currentPackIndex + 1} – Pick ${$draft.currentPickIndex + 1}`;
+
+  let pageTitle = '';
+  $: pageTitle =
+    isSealed || $draft.isDrafting === false
+      ? 'Card pool'
+      : `Pack ${$draft.currentPackIndex} – Pick ${$draft.currentPickIndex}`;
 
   onMount(() => {
     previewElement = document.getElementById('deckbuild-preview');
@@ -41,9 +44,10 @@
     deckCards = { ...updatedDeckCards };
   });
 
-  function addCard(card) {
+  function addCard(card, index = 0) {
     if ($draft.isDrafting) {
       deck.add(card);
+      draft.pickCard(index);
     } else {
       if (get(options).isBuilding) {
         deck.remove(card.id);
@@ -95,11 +99,11 @@
     </div>
   {:else}
     <ul class="flex-group">
-      {#each isSealed ? $pool : $draft.currentPack as card}
+      {#each isSealed || $draft.isDrafting === false ? $pool : $draft.currentPack as card, index}
         <li>
           <CardLarge
             {card}
-            onClick={() => addCard(card)}
+            onClick={() => addCard(card, index)}
             showQuantity={isSealed ? true : false}
           />
         </li>
