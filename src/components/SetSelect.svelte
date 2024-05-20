@@ -4,7 +4,7 @@
   export let setsData;
   export let onChange;
 
-  let setIndex = '1';
+  let setIndex = '4';
   let packCount = 1;
 
   $: onChange(id, setIndex, packCount);
