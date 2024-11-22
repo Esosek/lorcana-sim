@@ -30,6 +30,12 @@
       "releaseDate": "2024-05-31",
       "hasAllCards": true,
       "name": "Ursula's Return"
+    },
+    "6": {
+      "prereleaseDate": "2024-11-15",
+      "releaseDate": "2024-11-25",
+      "hasAllCards": true,
+      "name": "Azurite Sea"
     }
   }
 }
