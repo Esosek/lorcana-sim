@@ -7,8 +7,8 @@
   export let onMouseEnter = () => {}
   export let onMouseLeave = () => {}
 
-  const baseName = card.baseName ?? card.fullName.split(' - ')[0]
-  const subtitle = card.subtitle ?? card.fullName.split(' - ')[1]
+  $: baseName = card.baseName ?? card.fullName.split(' - ')[0]
+  $: subtitle = card.subtitle ?? card.fullName.split(' - ')[1]
 </script>
 
 <li data-ink={card.color}>
