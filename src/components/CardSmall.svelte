@@ -1,11 +1,14 @@
 <script>
-  import inkableIconImg from '../assets/images/inkable_icon.png';
-  import nonInkableIconImg from '../assets/images/non_inkable_icon.png';
+  import inkableIconImg from '../assets/images/inkable_icon.png'
+  import nonInkableIconImg from '../assets/images/non_inkable_icon.png'
 
-  export let card;
-  export let onClick;
-  export let onMouseEnter = () => {};
-  export let onMouseLeave = () => {};
+  export let card
+  export let onClick
+  export let onMouseEnter = () => {}
+  export let onMouseLeave = () => {}
+
+  const baseName = card.baseName ?? card.fullName.split(' - ')[0]
+  const subtitle = card.subtitle ?? card.fullName.split(' - ')[1]
 </script>
 
 <li data-ink={card.color}>
@@ -26,9 +29,9 @@
       class="card-name"
       style={card.type === 'Character' ? 'justify-self: start' : ''}
     >
-      <p class="card-basename">{card.baseName}</p>
-      {#if card.subtitle}
-        <p class="card-subtitle">{card.subtitle}</p>
+      <p class="card-basename">{baseName}</p>
+      {#if subtitle}
+        <p class="card-subtitle">{subtitle}</p>
       {/if}
     </div>
 
