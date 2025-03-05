@@ -36,6 +36,12 @@
       "releaseDate": "2024-11-25",
       "hasAllCards": true,
       "name": "Azurite Sea"
+    },
+    "7": {
+      "prereleaseDate": "2025-03-07",
+      "releaseDate": "2025-03-21",
+      "hasAllCards": true,
+      "name": "Archazia's Island"
     }
   }
 }
